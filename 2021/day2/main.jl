@@ -39,5 +39,5 @@ function solution_part_2(lines)
     return horizontal * depth
 end
 
-println(solution_part_1(lines))
-println(solution_part_2(lines))
+println("Solution part 1: ", solution_part_1(lines))
+println("Solution part 2: ", solution_part_2(lines))
