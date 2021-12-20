@@ -58,5 +58,31 @@ function get_total_flashes(matrix, steps)
     return total_flashes
 end
 
+function get_first_step_simultaneosly_flashes(matrix)
+    v = ones(Int16, size(matrix)[1], size(matrix)[2])
+    i = 1
+    while true
+        matrix = matrix + v
+        while count(i->(i > 9), (vec(matrix))) > 0
+            for i in 1:size(matrix)[1]
+                for j in 1:size(matrix)[2]
+                    if matrix[i, j] > 9
+                        matrix[i, j] = 0
+                        # Update neighbors
+                        matrix = increment_neighbors(matrix, i, j)
+                    end
+                end
+            end
+        end
+
+        if count(i->(i == 0), (vec(matrix))) == size(matrix)[1] * size(matrix)[2]
+            return i
+        end
+
+        i += 1
+    end
+end
+
 matrix = get_matrix(lines)
 println("Solution part 1: ", get_total_flashes(matrix, 100))
+println("Solution part 2: ", get_first_step_simultaneosly_flashes(matrix))
