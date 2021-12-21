@@ -1,5 +1,3 @@
-using Combinatorics
-
 lines = readlines("input.txt")
 
 function get_output_values(lines)
