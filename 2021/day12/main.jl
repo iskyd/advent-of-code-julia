@@ -1,4 +1,4 @@
-lines = readlines("/home/mattia/dev/advent-of-code-julia/2021/day12/input.txt")
+lines = readlines("input.txt")
 
 function build_nodes(lines)
     nodes = Dict()
@@ -15,7 +15,7 @@ function build_nodes(lines)
     return nodes
 end
 
-function get_paths(nodes)
+function solution_part_1(nodes)
     incomplete = [["start"]]
     complete = []
 
@@ -33,9 +33,8 @@ function get_paths(nodes)
         end
     end
 
-    return complete
+    return length(complete)
 end
 
 nodes = build_nodes(lines)
-paths = get_paths(nodes)
-println("Solution part 1: ", length(paths))
+println("Solution part 1: ", solution_part_1(nodes))
