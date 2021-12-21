@@ -56,7 +56,7 @@ function fold_matrix(matrix, folding)
     return output
 end
 
-function solution_part_1(matrix, folging)
+function solution_part_1(matrix, folding)
     matrix = fold_matrix(matrix, folding)
 
     return count(x -> x == 1, matrix)
@@ -78,7 +78,9 @@ function solution_part_2(matrix, foldings)
         end
     end
 
-    display(tmp)
+    for i in 1:size(matrix)[1]
+        println(join(tmp[i, :], ""))
+    end
 end
 
 coordinates, foldings = get_coordinates_folding(lines)
