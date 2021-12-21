@@ -47,20 +47,41 @@ function fold_matrix(matrix, folding)
         matrix1 = matrix[1:fold_value, :]
         matrix2 = matrix[fold_value + 2:end, :]
 
+        diff = size(matrix1, 1) - size(matrix2, 1)
+        matrix2 = vcat(matrix2, zeros(Bool, diff, size(matrix2)[2]))
+
         output = matrix1 .| reverse(matrix2, dims=1)
     end
 
     return output
 end
 
-function solution_part_1(matrix, foldings)
-    for folding in foldings
-        matrix = fold_matrix(matrix, folding)
-    end
+function solution_part_1(matrix, folging)
+    matrix = fold_matrix(matrix, folding)
 
     return count(x -> x == 1, matrix)
 end
 
+function solution_part_2(matrix, foldings)
+    for folding in foldings
+        matrix = fold_matrix(matrix, folding)
+    end
+
+    tmp = Matrix{String}(undef, size(matrix)[1], size(matrix)[2])
+    for i in 1:size(matrix)[1]
+        for j in 1:size(matrix)[2]
+            if matrix[i, j] == true
+                tmp[i, j] = "#"
+            else
+                tmp[i, j] = "."
+            end
+        end
+    end
+
+    display(tmp)
+end
+
 coordinates, foldings = get_coordinates_folding(lines)
 matrix = get_cartesian_matrix(coordinates)
-println("Solution part 1: ", solution_part_1(matrix, [foldings[1]]))
+println("Solution part 1: ", solution_part_1(matrix, foldings[1]))
+solution_part_2(matrix, foldings)
