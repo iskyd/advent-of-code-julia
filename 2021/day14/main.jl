@@ -1,6 +1,6 @@
 using DataStructures
 
-lines = readlines("/home/mattia/dev/advent-of-code-julia/2021/day14/input.txt")
+lines = readlines("input.txt")
 
 function get_template_rules(lines)
     template = lines[1]
