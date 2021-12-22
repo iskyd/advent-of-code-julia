@@ -1,6 +1,6 @@
 using DataStructures
 
-lines = readlines("input.txt")
+lines = readlines("/home/mattia/dev/advent-of-code-julia/2021/day14/input.txt")
 
 function get_template_rules(lines)
     template = lines[1]
@@ -19,10 +19,9 @@ function solution_part_1(template, rules, steps = 10)
     result = ""
     for i in 1:steps
         for j in 1:length(template)-1
+            result *= string(template[j])
             if haskey(rules, template[j:j+1])
-                result *= string(template[j]) * string(rules[template[j:j+1]])
-            else
-                result *= string(template[j])
+                result *= string(rules[template[j:j+1]])
             end
         end
 
