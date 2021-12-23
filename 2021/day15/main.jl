@@ -17,6 +17,30 @@ function get_matrix(lines)
     return matrix
 end
 
+function expand_matrix(matrix, times=5)
+    rows, cols = size(matrix)
+    new_matrix = zeros(Int16, rows * times, cols * times)
+    new_matrix[1:rows, 1:cols] = matrix
+
+    v = ones(Int16, rows, cols)
+
+    for i in 1:trunc(Int16, size(new_matrix)[1]/rows)
+        for j in 1:trunc(Int16, size(new_matrix)[2]/cols)
+            tmp = (matrix + v * (i - 1 + j - 1))
+            for x in 1:size(tmp)[1]
+                for y in 1:size(tmp)[2]
+                    if tmp[x, y] > 9
+                        tmp[x, y] = (tmp[x, y] % 10) +1 
+                    end
+                end
+            end
+            new_matrix[(i - 1) * rows + 1:i * rows, (j - 1) * cols + 1:j * cols] = tmp
+        end
+    end
+
+    return new_matrix
+end
+
 function get_neighbours(matrix, i, j)
     neighbours = []
     if i > 1 push!(neighbours, [i-1, j]) end
@@ -27,8 +51,7 @@ function get_neighbours(matrix, i, j)
     return [((i - 1) * size(matrix)[2]) + j for (i, j) in neighbours]
 end
 
-function init_nodes(lines)
-    matrix = get_matrix(lines)
+function init_nodes(matrix)
     nodes = Dict()
 
     for i in 1:size(matrix)[1]
@@ -61,7 +84,7 @@ function find_min(nodes)
 end
 
 # dijkstra implementation
-function solution_part_1(nodes, source, target)
+function dijkstra(nodes, source, target)
     Q = copy(nodes)
 
     dist = Dict()
@@ -94,6 +117,12 @@ function solution_part_1(nodes, source, target)
     return dist[target]
 end
 
-nodes = init_nodes(lines)
-target = size(lines)[1] * length(lines[1])
-println("Solution part 1: ", solution_part_1(nodes, 1, target))
+matrix = get_matrix(lines)
+nodes = init_nodes(matrix)
+target = size(matrix)[1] * size(matrix)[2]
+println("Solution part 1: ", dijkstra(nodes, 1, target))
+
+expanded_matrix = expand_matrix(matrix, 5)
+nodes = init_nodes(expanded_matrix)
+target = size(expanded_matrix)[1] * size(expanded_matrix)[2]
+println("Solution part 2: ", dijkstra(nodes, 1, target))
