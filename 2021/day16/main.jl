@@ -52,8 +52,9 @@ function decode(transmission, index)
     else
         sub_packets, index = get_subpackets_by_number(transmission, index+7)
     end
+    value = calculate_value(sub_packets, packet_type)
 
-    return Packet(version, packet_type, nothing, sub_packets), index
+    return Packet(version, packet_type, value, sub_packets), index
 end
 
 function get_subpackets_by_length(transmission, index)
@@ -98,6 +99,20 @@ function get_literal_value(transmission, start)
     return parse(Int, values, base=2), index + 5
 end
 
+function calculate_value(sub_packets, packet_type)
+    if packet_type <= 3
+        values = [sub_packet.value for sub_packet in sub_packets]
+        if packet_type == 0 return sum(values) end
+        if packet_type == 1 return prod(values) end
+        if packet_type == 2 return minimum(values) end
+        if packet_type == 3 return maximum(values) end
+    end
+
+    if packet_type == 5 return sub_packets[1].value > sub_packets[2].value ? 1 : 0 end
+    if packet_type == 6 return sub_packets[1].value < sub_packets[2].value ? 1 : 0 end
+    if packet_type == 7 return sub_packets[1].value == sub_packets[2].value ? 1 : 0 end
+end
+
 function sum_versions(packet)
     version = packet.version
     for sub_packet in packet.sub_packets
@@ -113,5 +128,12 @@ function solution_part_1(transmission)
     return sum_versions(packet)
 end
 
+function solution_part_2(transmission)
+    packet, index = decode(transmission, 1)
+
+    return packet.value
+end
+
 transmission = hex_to_bin(lines[1])
 println("Solution part 1: ", solution_part_1(transmission))
+println("Solution part 2: ", solution_part_2(transmission))
