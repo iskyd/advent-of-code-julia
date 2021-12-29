@@ -8,8 +8,8 @@ function move_next_step(x, y, x_velocity, y_velocity)
     x += x_velocity
     y += y_velocity
 
-    if x_velocity != 0 x_velocity += trunc(Int8, -1 * (x_velocity / abs(x_velocity))) end
-    y_velocity += -1
+    if x_velocity > 0 x_velocity -= 1 end
+    y_velocity -= 1
 
     return x, y, x_velocity, y_velocity
 end
@@ -19,35 +19,31 @@ function is_in_target_area(x, y)
 end
 
 function solution_part_1()
-    max_y = 0
+    n = -target['y'][1] - 1
+    return trunc(Int16, n*(n + 1) / 2)
+end
 
-    possible_max_x = target['x'][2] % 2 == 0 ? target['x'][2] : target['x'][2] + 1
-    possible_min_x = 1
-    for i in 1:possible_max_x
-        if sum([j for j in 1:i]) > target['x'][1]
-            possible_min_x = i
-            break
-        end
-    end
+function solution_part_2()
+    total_velocities = 0
+    min_x_velocity = trunc(Int16, (target['x'][1] * 2) ^ 0.5 -1)
 
-    for i in 1:200
-        x, y = 0, 0
-        x_velocity, y_velocity = possible_min_x, i
-        starting_x_velocity, starting_y_velocity = x_velocity, y_velocity
-        current_max_y = 0
-        while true
-            x, y, x_velocity, y_velocity = move_next_step(x, y, x_velocity, y_velocity)
-            if y > current_max_y current_max_y = y end
-            if is_in_target_area(x, y)
-                max_y = current_max_y
-                break
+    for y_velocity in target['y'][1]:abs(target['y'][1])
+        for x_velocity in min_x_velocity:target['x'][2]
+            x, y, dx, dy = 0, 0, x_velocity, y_velocity
+            while true
+                x, y, dx, dy = move_next_step(x, y, dx, dy)
+                if is_in_target_area(x, y)
+                    total_velocities += 1
+                    break
+                end
+
+                if (x > target['x'][2] && y < target['y'][2]) || (dx == 0 && y < target['y'][2]) break end
             end
-
-            if x > target['x'][2] || y < target['y'][2] break end
         end
     end
 
-    return max_y
+    return total_velocities
 end
 
 println("Solution part 1: ", solution_part_1())
+println("Solution part 2: ", solution_part_2())
