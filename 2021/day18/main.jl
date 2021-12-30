@@ -1,6 +1,6 @@
 import JSON
 
-lines = [JSON.parse(line) for line in readlines("/Users/iskyd/dev/advent-of-code-julia/2021/day18/input.txt")]
+lines = [JSON.parse(line) for line in readlines("input.txt")]
 
 function replace_char(str, start_index, stop_index, replacement)
     str = split(str, "")
