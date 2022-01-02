@@ -65,11 +65,11 @@ function enhance(roi, enhancement_algorithm)
     return enhancement_algorithm[decimal + 1]
 end
 
-function solution_part_1(input_image, enhancement_algorithm)
+function solution(input_image, enhancement_algorithm, iterations=2)
     input_image = get_roi(input_image)
     output_image = copy(input_image)
 
-    for iteration in 1:2
+    for iteration in 1:iterations
         default_neighbours = '.'
         if enhancement_algorithm[1] == '#' && enhancement_algorithm[end] == '.' && iteration % 2 == 0 default_neighbours = '#' end
         
@@ -93,4 +93,5 @@ function solution_part_1(input_image, enhancement_algorithm)
 end
 
 input_image, enhancement_algorithm = parse_input(lines)
-println("Solution part 1: ", solution_part_1(input_image, enhancement_algorithm))
+println("Solution part 1: ", solution(input_image, enhancement_algorithm, 2))
+println("Solution part 2: ", solution(input_image, enhancement_algorithm, 50))
