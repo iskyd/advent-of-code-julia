@@ -189,4 +189,4 @@ end
 scanners = get_scanners()
 sol1, relative_positions = solution_part_1(scanners)
 println("Solution part 1: ", sol1)
-println("Solution part 1: ", solution_part_2(relative_positions))
+println("Solution part 2: ", solution_part_2(relative_positions))
