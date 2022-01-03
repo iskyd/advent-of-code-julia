@@ -1,5 +1,5 @@
 using IterTools
-using Caching
+using Memoize
 
 lines = readlines("input.txt")
 
@@ -47,7 +47,7 @@ function solution_part_1(players)
     return players[loser]["score"] * total_rolled * 3
 end
 
-@cache function play_out(p1_position, p1_score, p2_position, p2_score, current_player)
+@memoize function play_out(p1_position, p1_score, p2_position, p2_score, current_player)
     if p1_score >= 21 return 1, 0 elseif p2_score >= 21 return 0, 1 end
 
     tot_p1_wins = 0
