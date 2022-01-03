@@ -35,8 +35,6 @@ function solution_part_1(players)
         
         players[current_player]["position"] = new_position
         players[current_player]["score"] += players[current_player]["position"]
-
-        println("Player : ", current_player, " score: ", players[current_player]["score"])
         
         current_player = current_player == 1 ? 2 : 1
         total_rolled += 1
