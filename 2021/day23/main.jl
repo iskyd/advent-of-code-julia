@@ -1,12 +1,5 @@
 using DataStructures
 
-ENERGY = Dict(
-    'A' => 1,
-    'B' => 10,
-    'C' => 100,
-    'D' => 1000,
-)
-
 struct State
     hallway::Vector{Int8}
     rooms::Vector{Vector{Int8}}
@@ -20,7 +13,7 @@ function encode(state::State)
         str *= d[h]
     end
     
-    for i in 1:2
+    for i in 1:trunc(Int8, length(state.rooms[1]))
         str *= join([d[x[i]] for x in state.rooms], "")
     end
 
@@ -38,11 +31,15 @@ function parse_input(lines::Vector{String})
         end
     end
 
+    rows = []
+    total_rows = trunc(Int8, length(x) / 4)
+    for i in 1:total_rows
+        push!(rows, x[(i-1)*4+1:(i-1)*4+4])
+    end
+
     rooms = []
-    total_amphipods = length(x)
-    total_rooms = trunc(Int8, total_amphipods / 2)
-    for i in 1:total_rooms
-        push!(rooms, [x[i], x[i + total_rooms]])
+    for i in 1:4
+        push!(rooms, [j[i] for j in rows])
     end
 
     return State(hallway, rooms)
@@ -114,7 +111,7 @@ function dijkstra(state::State, solution::String)
     distances[encode(state)] = 0
     queue = PriorityQueue{State,Int}()
     queue[state] = 0
-
+    
     while !isempty(queue)
         current = dequeue!(queue)
         encode(current) == solution && break
@@ -139,10 +136,9 @@ end
 
 function solution_part_2(state::State)
     solution = '.' ^ 11 * "ABCD" ^ 4
-    println(encode(state))
-    exit(0)
 
     return dijkstra(state, solution)
 end
 
 println("Solution part 1: ", solution_part_1(parse_input(readlines("input.txt"))))
+println("Solution part 2: ", solution_part_2(parse_input(readlines("input2.txt"))))
