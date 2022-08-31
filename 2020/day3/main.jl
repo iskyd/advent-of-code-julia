@@ -1,4 +1,4 @@
-lines::Array{String} = readlines("/Users/iskyd/dev/advent-of-code-julia/2020/day3/input.txt")
+lines::Array{String} = readlines("input.txt")
 map = Matrix{Char}(undef, length(lines), length(lines[1]))
 
 for i in eachindex(lines)
