@@ -17,7 +17,6 @@ function solutionPart1()::Int
 end
 
 function solutionPart2()::Int
-    # get top three elvesCalories
     elvesCalories = Vector{Int}()
     currentElvesCalories = 0
     for line in readlines("input.txt")
@@ -37,4 +36,4 @@ function solutionPart2()::Int
 end
 
 println("Solution part 1: ", solutionPart1())
-println("Solution part 1: ", solutionPart2())
+println("Solution part 2: ", solutionPart2())
