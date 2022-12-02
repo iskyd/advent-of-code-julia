@@ -2,7 +2,7 @@ using ResumableFunctions
 
 @resumable function get_calories()
     calory = 0
-    for line in readlines("/home/mattia/dev/advent-of-code-julia/2022/day1/input.txt")
+    for line in readlines("input.txt")
         if line == ""
             @yield calory
             calory = 0
