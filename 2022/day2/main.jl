@@ -1,5 +1,3 @@
-using ResumableFunctions
-
 function solution_part1()::Int
     total_score = 0
     for line in readlines("input.txt")
