@@ -37,4 +37,5 @@ function solution_part2()::Int
 end
 
 
-println("Solution part 1: ", solution_part2())
+println("Solution part 1: ", solution_part1())
+println("Solution part 2: ", solution_part2())
