@@ -51,12 +51,7 @@ function solution_part1(stacks, rules)::Vector{Char}
         end
     end
 
-    res = []
-    for stack in stacks
-        push!(res, first(stack))
-    end
-
-    return res
+    return [first(stack) for stack in stacks]
 end
 
 function solution_part2(stacks, rules)::Vector{Char}
@@ -72,12 +67,7 @@ function solution_part2(stacks, rules)::Vector{Char}
         end
     end
 
-    res = []
-    for stack in stacks
-        push!(res, first(stack))
-    end
-
-    return res
+    return [first(stack) for stack in stacks]
 end
 
 stacks = get_stacks("input.txt", 9)
