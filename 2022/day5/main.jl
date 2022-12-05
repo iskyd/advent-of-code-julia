@@ -1,6 +1,6 @@
 using DataStructures
 
-function reverse_stack(stack::Stack)
+function reverse_stack(stack::Stack)::Stack
     new_stack = Stack{Char}()
     while !isempty(stack)
         push!(new_stack, pop!(stack))
@@ -9,7 +9,7 @@ function reverse_stack(stack::Stack)
     return new_stack
 end
 
-function get_stacks(filename::String, total_stacks::Int)
+function get_stacks(filename::String, total_stacks::Int)::Vector{Stack}
     stacks = [Stack{Char}() for _ in 1:total_stacks]
     for line in readlines(filename)
         if !(contains(line, r"(\[[A-Z]\])")) break end
