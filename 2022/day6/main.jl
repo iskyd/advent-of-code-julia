@@ -14,9 +14,6 @@ function solution(stream::Vector{Char}, n::Int)::Int
     return i + n - 1
 end
 
-function solution_part2(stream::Vector{Char})::Int
-end
-
 stream = get_stream()
 println("Solution part 1: ", solution(stream, 4))
 println("Solution part 2: ", solution(stream, 14))
