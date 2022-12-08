@@ -1,4 +1,3 @@
-
 mutable struct Node
     children::Vector{Node}
     parent::Union{Node, Nothing}
@@ -50,25 +49,7 @@ function get_total_size(root::Node)
     return weight
 end
 
-function solution_part1(root::Node)::Int
-    stack = [root]
-    total_size = 0
-    while !isempty(stack)
-        node = pop!(stack)
-        node_size = get_total_size(node)
-        if node_size <= 100000
-            total_size += node_size
-        end
-
-        for child in node.children
-            push!(stack, child)
-        end
-    end
-
-    return total_size
-end
-
-function solution_part2(root::Node)::Int
+function solution(root::Node)::Tuple{Int, Int}
     directories_size = Vector{Int}()
     total_disk_size = 70000000
     update_size = 30000000
@@ -84,13 +65,17 @@ function solution_part2(root::Node)::Int
         end
     end
 
+    part1 = sum([d for d in directories_size if d < 100000])
+
     used_size = maximum(directories_size)
     needed = update_size - (total_disk_size - used_size)
-
-    return minimum([d for d in directories_size if d > needed])
+    part2 = minimum([d for d in directories_size if d > needed])
+    
+    return part1, part2
 end
 
 
 root = create_tree("input.txt")
-println("Solution part 1: ", solution_part1(root))
-println("Solution part 1: ", solution_part2(root))
+part1, part2 = solution(root)
+println("Solution part 1: ", part1)
+println("Solution part 1: ", part2)
