@@ -1,7 +1,3 @@
-function get_matrix()::Matrix{Int}
-    return parse.(Int, reduce(hcat, collect.(readlines("input.txt"))))
-end
-
 function is_visible(map::Matrix{Int}, i::Int, j::Int)
     left = map[i, j+1:end]
     right = map[i, 1:j-1]
@@ -37,6 +33,6 @@ function solution_part2(map::Matrix{Int})::Int
     return maximum([get_scenic_score(map, i, j) for i = axes(map, 1) for j = axes(map, 2)])
 end
 
-map = get_matrix()
+map::Matrix{Int} = parse.(Int, reduce(hcat, collect.(readlines("input.txt"))))
 println("Solution part 1: ", solution_part1(map))
 println("Solution part 2: ", solution_part2(map))
