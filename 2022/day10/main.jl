@@ -44,9 +44,9 @@ function solution_part2()
     cycle = 0
     for i in eachindex(registry_values)
         if registry_values[i] == cycle || registry_values[i] == cycle + 1 || registry_values[i] == cycle - 1
-            print("#")
+            print("█")
         else
-            print(".")
+            print(" ")
         end
 
         cycle += 1
