@@ -1,6 +1,6 @@
 using DataStructures
 
-heightmap::Matrix{Int} = map(c -> Int(c), reduce(hcat, collect.(readlines("test.txt"))))
+heightmap::Matrix{Int} = map(c -> Int(c), reduce(hcat, collect.(readlines("input.txt"))))
 start_point = findfirst(x -> x == 83, heightmap::Matrix)
 end_point = findfirst(x -> x == 69, heightmap::Matrix)
 
