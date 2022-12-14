@@ -1,3 +1,5 @@
+DELTAS = [CartesianIndex(0, 1), CartesianIndex(-1, 1), CartesianIndex(1, 1)]
+
 function get_map()::Set{CartesianIndex}
     map = Set{CartesianIndex}()
 
@@ -30,27 +32,17 @@ function get_map()::Set{CartesianIndex}
     return map
 end
 
-function fall(map::Set{CartesianIndex}, start::CartesianIndex, max_y::Int)::Bool
-    x, y = start[1], start[2]
-    while y <= max_y
-        if !(CartesianIndex(x, y + 1) in map)
-            y += 1
-            continue
+function fall(map::Set{CartesianIndex}, sand::CartesianIndex, max_y::Int)::Bool
+    @label before_while
+    while sand[2] <= max_y
+        for delta in DELTAS
+            if !(sand + delta in map)
+                sand += delta
+                @goto before_while
+            end
         end
 
-        if !(CartesianIndex(x - 1, y + 1) in map)
-            x -= 1
-            y += 1
-            continue
-        end
-
-        if !(CartesianIndex(x + 1, y + 1) in map)
-            x += 1
-            y += 1
-            continue
-        end
-
-        push!(map, CartesianIndex(x, y))
+        push!(map, sand)
 
         return true
     end
@@ -59,36 +51,25 @@ function fall(map::Set{CartesianIndex}, start::CartesianIndex, max_y::Int)::Bool
     return false
 end
 
-function fall2floor(map::Set{CartesianIndex}, start::CartesianIndex, max_y::Int)::CartesianIndex
-    x, y = start[1], start[2]
-
-    if start in map
-        return start
+function fall2floor(map::Set{CartesianIndex}, sand::CartesianIndex, max_y::Int)::CartesianIndex
+    if sand in map
+        return sand
     end
 
-    while y <= max_y
-        if !(CartesianIndex(x, y + 1) in map)
-            y += 1
-            continue
-        end
-
-        if !(CartesianIndex(x - 1, y + 1) in map)
-            x -= 1
-            y += 1
-            continue
-        end
-
-        if !(CartesianIndex(x + 1, y + 1) in map)
-            x += 1
-            y += 1
-            continue
+    @label before_while
+    while sand[2] <= max_y
+        for delta in DELTAS
+            if !(sand + delta in map)
+                sand += delta
+                @goto before_while
+            end
         end
 
         break
     end
 
     # abyss
-    return CartesianIndex(x, y)
+    return sand
 end
 
 function solution_part1(map::Set{CartesianIndex})::Int
@@ -110,7 +91,7 @@ function solution_part2(map::Set{CartesianIndex})::Int
         res = fall2floor(map, CartesianIndex(500, 0), max_y)
         push!(map, res)
         units += 1
-        
+
         if res === CartesianIndex(500, 0) break end
     end
 
