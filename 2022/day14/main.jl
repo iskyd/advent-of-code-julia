@@ -3,7 +3,7 @@ DELTAS = [CartesianIndex(0, 1), CartesianIndex(-1, 1), CartesianIndex(1, 1)]
 function get_map()::Set{CartesianIndex}
     map = Set{CartesianIndex}()
 
-    for line in readlines("/Users/iskyd/dev/advent-of-code-julia/2022/day14/input.txt")
+    for line in readlines("input.txt")
         line_points = Vector{CartesianIndex}()
         for coordinates in split(line, " -> ")
             point = CartesianIndex(parse.(Int, split(coordinates, ","))...)
