@@ -1,5 +1,5 @@
-using Memoize
 using DataStructures
+using BenchmarkTools
 
 struct Valve
     flow::Int
@@ -30,7 +30,7 @@ function parse_input()::Tuple{OrderedDict{String,Valve},OrderedDict{String,Order
     return valves, steps
 end
 
-@memoize function travel(
+function travel(
     valves::OrderedDict{String,Valve},
     steps::OrderedDict{String,OrderedDict{String,Float64}},
     last::String, minutes_left::Int, state::OrderedDict{String,Int},
@@ -62,9 +62,9 @@ function solution_part2(valves::OrderedDict{String,Valve}, steps::OrderedDict{St
     state = OrderedDict(v => 1 << (i - 1) for (i, v) in enumerate(keys(filtered)))
 
     paths = travel(filtered, steps, "AA", minutes_left, state, 0, 0, Dict{Int,Int}())
-    
+
     return maximum(my_val + el_val for (k1, my_val) in paths
-                         for (k2, el_val) in paths if !(k1 & k2 !== 0))
+                   for (k2, el_val) in paths if !(k1 & k2 !== 0))
 end
 
 valves, steps = parse_input()
