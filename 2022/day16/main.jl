@@ -8,7 +8,7 @@ end
 
 function parse_input()::Tuple{OrderedDict{String,Valve},OrderedDict{String,OrderedDict{String,Float64}}}
     valves = OrderedDict{String,Valve}()
-    for line in readlines("/home/mattia/dev/advent-of-code-julia/2022/day16/input.txt")
+    for line in readlines("input.txt")
         splitted = split(line, " ")
         flow = parse(Int, match(r"rate=(\d+);", splitted[5])[1])
         valves[splitted[2]] = Valve(flow, replace.(splitted[10:end], "," => ""))
